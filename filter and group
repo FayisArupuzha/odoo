@@ -1,0 +1,45 @@
+<!--Inherit the sale order form view--> 
+<odoo>
+     <record id="view_sale_order_custom" model="ir.ui.view"> 
+          <field name="name">sale.order.custom.form.inherited</field>
+          <field name="model">sale.order</field> 
+          <field name="inherit_id" ref="sale.view_order_form"/> 
+          <field name="arch" type="xml"> 
+               <xpath expr="//field[@name='payment_term_id']" position="after"> 
+                    <field name="order_user"/>
+                    <field name="order_users"/>
+                    <field name="link_field"/>
+               </xpath> 
+          </field>   
+     </record>
+
+     <record id="sale_search_custome" model="ir.ui.view">
+          <field name="name">sale.order.custom.inherited.search</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_sales_order_filter"/> 
+          <field name="arch" type="xml">
+
+               <xpath expr="//field[@name='partner_id']" position="after"> 
+                    <field name="link_field"/>
+               </xpath> 
+          </field>
+     
+     </record>
+
+
+     <record id="sale_search_custome_group" model="ir.ui.view">
+          <field name="name">sale.order.custom.inherited.search</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_sales_order_filter"/> 
+          <field name="arch" type="xml">
+               <xpath expr="//search" position="inside">
+                    <filter name="link_field" context="{'group_by':'link_field'}"/>
+
+                   
+               </xpath>
+
+          </field>     
+
+
+     </record>
+</odoo>
