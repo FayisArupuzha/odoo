@@ -1,0 +1,226 @@
+<odoo>
+    <record id="action_report_fayis" model="ir.actions.report">
+            <field name="name">Fayis report</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">invoice_reports.report_property_fayis_invoice</field>
+            <field name="report_file">invoice_reports.report_property_fayis_invoice</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="paperformat_id" ref="invoice_reports.report_paperformat"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_property_fayis_invoice">
+            <t t-foreach="docs" t-as="property">
+                <t t-call="web.html_container">
+                    <t t-call="invoice_reports.custom_session_header_footer_pdf"/>
+                        <div class="page">
+                            <div>
+                                <h2 style="text-align:center;">TAX INVOICE</h2>
+                            </div>
+                            <table width="100%" style="font-size: 15px; border: 3px double black;; border-bottom: none;" >
+                                <tr width="100%" >
+                                    <td width="20%" style="font-weight:bold;">
+                                        To:
+                                    </td>
+                                    <td width="30%" style="font-weight:bold;">
+                                        <span t-field="property.partner_id"/>
+                                    </td>
+                                    <td width="20%" style="font-weight:bold;">
+                                        Tax Invoice No:
+                                    </td>
+                                    <td width="30%">
+                                        <span t-field="property.name"/>
+                                    </td>
+                                </tr>
+                                <tr width="100%" >
+                                    <td width="20%" style="font-weight:bold;">
+                                        Address:
+                                    </td>
+                                    <td width="30%">
+                                        <span t-field="property.partner_id.street"/>,<span t-field="property.partner_id.city"/>
+                                    </td>
+                                    <td width="20%" style="font-weight:bold;">
+                                        Date:
+                                    </td>
+                                    <td width="30%">
+                                        <t t-if="property.invoice_date">
+                                            <span t-field="property.invoice_date"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr width="100%">
+                                    <td colspan="4"> 
+                                        Customer TRN:
+                                    </td>
+                                </tr>
+                            </table>
+                                <table width="100%" style="font-size: 15px; border: 3px double black; border-top: none;">
+                                    <tr width="100%">
+                                        <td width="12.5%" style="font-weight:bold;">
+                                            LINE
+                                        </td>
+                                        <td width="12.5%" style="font-weight:bold;">
+                                            VSL/VOY
+                                        </td>
+                                        <td width="12.5%" style="font-weight:bold;">
+                                            POL
+                                        </td>
+                                        <td width="12.5%" style="font-weight:bold;">
+                                            POD
+                                        </td>
+                                        <td width="12.5%" style="font-weight:bold;">
+                                            BL NO/HBL NO
+                                        </td>
+                                        <td width="12.5%" style="font-weight:bold;">
+                                            QTY
+                                        </td>
+                                        <td width="12.5%" style="font-weight:bold;">
+                                            JOB NO
+                                        </td>
+                                        <td width="12.5%" style="font-weight:bold;">
+                                            CLIENT REF#
+                                        </td>
+                                    </tr>
+                                    <tr width="100%">
+                                        <td colspan="8" style="font-weight:bold;"> 
+                                            Shipper : ALSI LOGISTICS SERVICES LLC
+                                        </td>
+                                    </tr>
+                                    <tr width="100%">     
+                                        <td colspan="8" style="font-weight:bold;"> 
+                                            Consignee :
+                                        </td>
+                                    </tr>    
+                                    <tr width="100%">
+                                        <td colspan="8" style="font-weight:bold;"> 
+                                            Subject:
+                                        </td>
+                                    </tr>    
+                                    <tr width="100%">   
+                                        <td colspan="8" style="font-weight:bold;"> 
+                                            Remarks : CBHU9547644,CSLU6322100,UETU5320014,FCIU7193278
+                                        </td>
+                                    </tr>
+                                </table>
+                        
+                                
+                            <table width="100%" style="font-size: 15px; border: 3px double black;">
+                                <tr width="100%">
+                                    <td width="14%" style="font-weight:bold;">
+                                        PRODUCT
+                                    </td>
+                                    <td width="14%" style="font-weight:bold;">
+                                        QUANTITY
+                                    </td>
+                                    <td width="14%" style="font-weight:bold;">
+                                        Currency
+                                    </td>
+                                    <td width="14%" style="font-weight:bold;">
+                                        PRICE
+                                    </td>
+                                    <td width="14%" style="font-weight:bold;">
+                                        VAT %
+                                    </td>
+                                    <td width="14%" style="font-weight:bold;">
+                                        VAT Amount
+                                    </td>
+                                    <td width="14%" style="font-weight:bold;">
+                                        SUBTOTAL
+                                    </td>
+                                </tr>
+                            </table>
+                                <div style="margin-bottom: 20px;"></div>
+                                    <table width="100%" style="font-size: 15px; border: 3px double black;">
+                                    <t t-foreach="property.line_ids" t-as="line">
+                                        <tr>
+                                            <td width="14%">
+                                                <span t-field="line.product_id.name"/>
+                                            </td>
+                                            <td width="14%">
+                                                <span t-field="line.quantity"/>
+                                            </td>
+                                            <td width="14%">
+                                                <span t-field="line.currency_id.symbol"/>
+                                            </td>
+                                            <td width="14%">
+                                                <span t-field="line.price_unit"/>
+                                            </td>
+                                            <td width="14%">
+                                                <span t-field="line.tax_ids"/>
+                                            </td>
+                                            <td width="14%">
+                                                <span t-esc="float(line.l10n_ae_vat_amount)"/>
+                                            </td>
+                                            <td width="14%">
+                                                <span t-esc="float(line.price_subtotal)"/>
+                                            </td>
+                                        </tr>
+                                    </t> 
+                                </table>
+                                <table width="100%" style="font-size: 15px; border: 3px double black;">
+                                    <tr>
+                                        <td width="14%" style="font-weight:bold;">TOTAL</td>
+                                        <td width="14%"></td>
+                                        <td width="14%" style="font-weight:bold;"><span t-field="line.currency_id.symbol"/></td>
+                                        <td width="14%" style="font-weight:bold;"><span t-esc="float(property.amount_untaxed_signed)"/></td>
+                                        <td width="14%"></td>
+                                        <td width="14%" style="font-weight:bold;"><span t-esc="float(property.amount_tax_signed)"/></td>
+                                        <td width="14%" style="font-weight:bold;"><span t-esc="float(property.amount_total_signed)"/></td>
+                                    </tr>
+                                    <tr width="100%">   
+                                        <td colspan="7" > 
+                                        <h2>Amount  In Words : <span t-esc="line.currency_id.with_context(lang='en_us').amount_to_text(property.amount_total_signed)"/></h2>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table width="100%" style="font-size: 15px; border: 3px double black;">
+                                    <tr width="100%">
+                                        <td width="25%">Our Bank Details</td>
+                                        <td width="10%"></td>
+                                        <td width="45%"></td>
+                                        <td width="20%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>A/C Name</td>
+                                        <td> : </td>
+                                        <td>EXPRESS FREIGHT SERVICES LLC</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bank</td>
+                                        <td> : </td>
+                                        <td>Bank Muscat</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>A/C No</td>
+                                        <td> : </td>
+                                        <td>0336000026350016</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Branch</td>
+                                        <td> : </td>
+                                        <td>Jibroo Branch, Sultanate of Oman</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>SWIFT CODE</td>
+                                        <td> : </td>
+                                        <td>BMUSOMRXXXX</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IBAN REF</td>
+                                        <td> : </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <h6 style="text-align:center;">This is a system generated document and does not require signature/stamp</h6>
+                        </div>
+                </t>
+            </t>
+        </template>
+</odoo>

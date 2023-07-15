@@ -1,0 +1,188 @@
+<odoo>
+    <record id="action_report_alsi" model="ir.actions.report">
+        <field name="name">Alsi Invoice report</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custome_alsi_invoice.report_property_alsi_invoice</field>
+        <field name="report_file">custome_alsi_invoice.report_property_alsi_invoice</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="paperformat_id" ref="custome_alsi_invoice.quatation_paperformat"/>
+        <!-- <field name="paperformat_id" ref="invoice_reports.report_paperformat"/> -->
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_property_alsi_invoice">
+        <t t-foreach="docs" t-as="property">
+            <t t-call="web.html_container">
+
+                
+                <!-- <t t-call="invoice_reports.custom_session_header_footer_pdf"/> -->
+                <t t-call="custome_alsi_invoice.custom_session_header_footer_pdf">
+                <!-- <div class="page"> -->
+                    <!-- <h1 style="text-align: center;">QUOTATION</h1>
+
+                    <table width="100%" style="font-size: 15px; border: 1px solid black;">
+                        <tr width="100%">
+                            <td width="20%">Date :</td>
+                            <td width="5%"></td>
+                            <td width="50%"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr>
+                            <td>Quote No.:</td>
+                            <td></td>
+                            <td><span t-field="property.name"/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Kind Attention:</td>
+                            <td></td>
+                            <td>test</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div style="margin-bottom: 20px;"></div>
+                    <table width="100%" style="font-size: 15px; border: 1px solid black;">
+                        <tr width="100%">
+                            <td width="25%">Customer name:</td>
+                            <td width="25%"><span t-field="property.partner_id"/></td>
+                            <td width="25%">Quote Date:</td>
+                            <td width="25%"><span t-field="property.date_order"/></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Address:</td>
+                            <td width="25%"><span t-field="property.partner_id.street"/></td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Customer Reference:</td>
+                            <td width="25%">test</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                    </table>
+                    <div style="margin-bottom: 20px;"></div>
+                    <table width="100%" style="font-size: 15px; border: 1px solid black;">
+                        <tr width="100%">
+                            <td width="25%">Job Type:</td>
+                            <td width="25%">Customs Clearance</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Quote Type:</td>
+                            <td width="25%">Shipment</td>
+                            <td width=style="margin:-35px;padding:0px;""25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Mode:</td>
+                            <td width="25%">Sea FCL</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Transaction:</td>
+                            <td width="25%">Import</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Scope:</td>
+                            <td width="25%">test</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Commodity:</td>
+                            <td width="25%">test</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Equipment:</td>
+                            <td width="25%">test</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Volume:</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Gross Weight:</td>
+                            <td width="25%">123.0</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Rate Validity:</td>
+                            <td width="25%">test</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">Delivery:</td>
+                            <td width="25%">test del</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr width="100%">
+                            <td width="25%">POD:</td>
+                            <td width="25%">test pod</td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                        </tr>
+                    </table>
+                    <div style="margin-bottom: 20px;"></div>
+                    <table border="1" width="100%"  cellpadding="0" cellspacing="0" style="border: none;" >
+
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid black; text-align: center;" cellpadding="0" cellspacing="0">Sl No.</th>
+                 customer/custome_alsi_invoice/static/description/img/WhatsApp Image 2023-07-13 at 11.59.29 AM.jpeg               <th style="border: 1px solid black; text-align: center;" cellpadding="0" cellspacing="0">Description</th>
+                                <th style="border: 1px solid black; text-align: center;" cellpadding="0" cellspacing="0">Unit Price</th>
+                                <th style="border: 1px solid black; text-align: center;" cellpadding="0" cellspacing="0">Basis</th>
+                                <th style="border: 1px solid black; text-align: center;" cellpadding="0" cellspacing="0">Quantity</th>
+                                <th style="border: 1px solid black; text-align: center;" cellpadding="0" cellspacing="0">Subtotal</th>
+                                <th style="border: 1px solid black; text-align: center;" cellpadding="0" cellspacing="0">Remarks</th>
+                            </tr>
+                        </thead>
+                            <tr>
+                                <td colspan="7">
+                                    Destination Charges
+                                </td>
+                            </tr>
+                        
+                        <tbody>
+                            <t t-foreach="property.order_line" t-as="line">
+                                <tr>
+                                    <td style="border: 1px solid black; text-align: center;">1</td>
+                                    <td style="border: 1px solid black; text-align: center;"><span t-field="line.name"/></td>
+                                    <td style="border: 1px solid black; text-align: center;"><span t-field="line.price_unit"/></td>
+                                    <td style="border: 1px solid black; text-align: center;">Per Shipment</td>
+                                    <td style="border: 1px solid black; text-align: center;"><span t-field="line.product_uom_qty"/></td>
+                                    <td style="border: 1px solid black; text-align: center;"><span t-esc="float(line.price_subtotal)"/></td>
+                                    <td style="border: 1px solid black; text-align: center;">Test</td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    
+
+                    <div style="float:right;">
+                        <h5>Estimated Total : <span t-esc="float(property.amount_total)"/></h5>
+                    </div>
+                    <div style="margin-bottom: 40px;"></div>
+                    <div>
+                        <h5>Notes to Customer : test notest : </h5>
+                    </div> -->
+                <!-- </div> -->
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

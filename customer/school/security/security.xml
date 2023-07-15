@@ -1,0 +1,22 @@
+<odoo>
+    <record model="ir.module.category" id="school_module_management">
+        <field name="name">Sale school</field>
+        <field name="description">User access levels for Overtime module</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="overtime_user_access_school" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="school_module_management"/>
+    </record>
+
+    <record id="overtime_manager_access_school" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="school_module_management"/>
+        <field name="implied_ids" eval="[(4, ref('overtime_user_access_school'))]"/>
+    </record>
+
+    
+
+    
+</odoo>

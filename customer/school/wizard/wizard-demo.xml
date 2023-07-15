@@ -1,0 +1,31 @@
+<odoo>
+    	<record id="school_model_wizard_view_form" model="ir.ui.view">
+        	<field name="name">school.model.wizard.form</field>
+        	<field name="model">school.wizard.model</field>
+        	<field name="arch" type="xml">
+            	<form string="School sale wizard">
+                	<group class="oe_title">
+                    	<!-- <field name="product" invisible="1"/> -->
+						<field name="products" />
+						<field name="check_list"/>
+						<field name="link_field" invisible="1" />	
+						<field name="check_product" invisible="1" />	
+						<field name="wizard_somany_field" widget="many2many_tags"/>				
+                	</group>
+						<footer>
+							<button string="Cancel" class="btn-secondary" special="cancel"/> 	
+							<button class="oe_stat_button" type="object" string="Purchase Check" name="ok_button" icon='fa-user'/>
+	
+						</footer>				
+                </form>
+        	</field>
+    	</record>
+
+    	<record id="test_model_wizard_action123" model="ir.actions.act_window">
+        	<field name="name">Sale Model Wizard</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">school.wizard.model</field>
+        	<field name="view_mode">form</field>
+        	<field name="target">new</field>
+    	</record>
+</odoo>

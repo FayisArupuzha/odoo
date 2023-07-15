@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="custom_session_header_footer_pdf">
+        <div class="header" style="margin:-35px;padding:0px;">
+                  <img class="img img-responsive" src="/custome_alsi_invoice/static/description/img/WhatsApp Image 2023-07-13 at 11.59.29 AM.jpeg" style="max-height: 700px; width:100%;  margin-bottom: 100px"/>
+
+        </div><br/>
+        <div class="articale o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+        <div class="footer" style="margin:-35px;padding:0px;">
+            <img class="img img-responsive" src="/custome_alsi_invoice/static/description/img/WhatsApp Image 2023-07-14 at 11.18.53 AM.jpeg" style="width:100%;" />
+        </div>
+    </template>
+
+</odoo>

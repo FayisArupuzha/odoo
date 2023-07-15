@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_school,school.school_model,model_sale_school,base.group_user,1,1,1,1
+access_sale_school_line,school.school_model,model_sale_school_line,base.group_user,1,1,1,1
+access_school_wizard_model,school.school_wizard_model,model_school_wizard_model,base.group_user,1,1,1,1
+
+
+
+

@@ -1,0 +1,132 @@
+<odoo>
+    <data>
+        <record id="model_name_view_form_schoolss" model="ir.ui.view">
+            <field name="name">model_name.view.form</field>
+            <field name="model">sale.school</field>
+            <field name="arch" type="xml">
+                <form string="School Entry">
+                <header>
+                    <button name="Purchase_create" string="Create Button" class="oe_highlight" type="object" />
+                    <button name="register_payment" string="Register Payment" class="oe_highlight" type="object" />
+                    <button name="product_button_list" string="List show Payment" class="oe_highlight" type="object" />
+                    <button name="button_for_value" string="Value changing" class="oe_highlight" type="object" />
+                    <button name="save_create" string="Save Button" class="oe_highlight" type="object" />
+
+
+                </header>
+                    <sheet>
+                   
+                    <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="object" string="Purchase Order" name="Purchase_list" icon='fa-user'>
+                    
+                    <field  string="Count" name="purchase_count" widget="statinfo"/>
+
+                    </button>
+                    
+                    <button class="oe_stat_button" type="object" string="Purchase Check" name="check_order" icon='fa-user'>
+                    
+
+                    </button>
+
+                    </div>
+                    <h1>
+                        <field name='application_no'/>
+                    </h1>
+
+                    
+                        <group>
+                            <field name="class_name" group="hr.group_hr_user"/>
+                            <field name="student_class"/>
+                            <field name='total_mark'/>
+                            <field name="count"/>
+                            <field name='change_mark'/>
+                            <field name='total_line'/>
+                            <field name='purchase_order'/>
+                            <field name='vender'/>  
+                            <field name='purchase_check'  widget="many2many_tags"/>
+                            <field name='somany_product'  widget="many2many_tags"/>
+                            <field name='save_bool'/>
+                            <field name='order_users'/>
+                            
+
+                        </group>
+                        <notebook>
+                            <page string='School Line'>
+                            <field name="school_line_ids">
+
+                                <tree editable="bottom"> 
+                                    <field name="mark"></field>
+                                    <field name="subject"></field>
+                                    <field name="price"></field>
+                                    <field name="quantity"></field>
+                                    <field name="product_dis"></field>
+                                    <field name='product_id'></field>
+                                    <field name='product_list' widget="many2many_tags"></field>
+                                </tree>
+                            </field>        
+                            </page>               
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        
+            
+        
+
+        <record id="view_provision_manager_list" model="ir.ui.view">
+            <field name="name">menu_sales_config</field>
+            <field name="model">sale.school</field>
+            <field name="arch" type="xml">
+                <tree string="Provision Entry List">
+                    <field name="class_name"/>
+                    <field name="student_class"/>
+                </tree>           
+            </field>
+        </record>
+
+
+
+        
+        <record id="model_name_view_kanban_form_school" model="ir.ui.view">
+            <field name="name">sale_school.view.kanban</field>
+                <field name="model">sale.school</field>
+                <field name="arch" type="xml">
+                    <kanban>
+                        <field name="class_name"/>
+                        <field name="student_class"/>
+                            <templates>
+                            <t t-name="kanban-box">
+                            <div t-attf-class='oe_kanban_global_click'>
+                            <!-- <span t-esc="record."></span> -->
+                                <ul>
+                                    <li>Class : <field name="class_name"/></li>
+                                    <li>Name : <field name="student_class"/></li>                                    
+                                </ul>
+                            
+                            </div>
+                            </t>            
+                            </templates>
+                    </kanban>
+            </field>
+        </record>
+
+        <record id="model_name_view_form_school_tree" model="ir.actions.act_window">
+            <field name="name">Provision Entry</field>
+            <field name="res_model">sale.school</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+<!-- groups="overtime_manager_access_school" -->
+        <menuitem
+            id="menu_view_manager_form"
+            name="School Entry"
+            action="model_name_view_form_school_tree"
+            parent="sale.sale_order_menu"
+            
+            
+
+            sequence="31"
+        />
+    </data>
+</odoo>

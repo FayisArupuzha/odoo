@@ -1,0 +1,19 @@
+<odoo>
+    <template id="quatation_custom_report">
+ 
+        <div class="header" style="margin:-35px;padding:0px;" > 
+            <div class="col-xs-6">
+                <img src ='quatation_report/static/discription/img/WhatsApp Image 2023-07-13 at 12.01.04 PM.png' style="max-height:700px; width:100%; margin-bottom:100px"/>
+            </div>
+        </div>
+            <div class="article o_report_layout_standard">
+                <t t-out="0"/>
+            </div>
+            <div class="footer">
+                <div class="col-xs-6">
+                    
+                    <img src="quatation_report/static/discription/img/Screenshot from 2023-07-13 11-57-21.png" style="width: 100%;" />
+                </div>
+            </div>
+    </template>
+</odoo>

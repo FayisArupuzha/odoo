@@ -1,0 +1,1 @@
+from . import fayis_report_purchase

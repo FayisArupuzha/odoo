@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="custom_session_header_footer_pdf">
+        <div class="header" style="">
+            <div style="float: left">
+                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+            </div>
+            <p style="text-align:center;">Tax Invoice</p>
+            <h2 style="text-align:center; margin: 0; padding: 0;">Express Freight Services LLC.</h2>
+            <p style="text-align:center; margin: 0; padding: 0;">P O Box # 1294, PC 114, Jibroo, Sultanate Of Oman</p>
+            <p style="text-align:center; margin: 0; padding: 0;">Tel : 968-2-4790202 Fax : 968-2-4790223 Email : efsoman@omantel.net.om</p>
+            <p style="text-align:center; margin: 0; padding: 0;">VAT Reg No : OM1100013056</p><br/>
+        </div><br/>
+
+        <div class="articale o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+
+        <div class="footer">
+            <div class="text-center" style="border-top: 1px solid black;">
+               <p>https://efs.whizcargo.com//freight/print_tax_invoice.php?jobid=10372&amp;invid=17950&amp;chargesummary=0&amp;no_shipper=0&amp;no_preparedby=1</p>
+            </div>
+        </div>
+    </template>
+
+</odoo>

@@ -1,0 +1,86 @@
+<odoo>
+    <record id="action_report_fayis" model="ir.actions.report">
+            <field name="name">Fayis report</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">report_fayis.report_property_fayis</field>
+            <field name="report_file">report_fayis.report_property_fayis</field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_property_fayis">
+            <t t-foreach="docs" t-as="property">
+                <t t-call="web.html_container">
+                <t t-set="company" t-value="property.partner_id"/>
+                    <t t-call="report_fayis.custom_session_header_footer">
+                        <div class="page">
+
+                            <div class="col-5 mb4">
+                                <div t-field="company.street"/>
+                                <div t-field="company.city"/>
+                                <div t-field="company.state_id"/>
+                                <div t-field="company.country_id"/>
+
+
+        
+
+                                <!-- <div t-field="company.partner_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                /> -->
+                            </div>
+                                <div>
+                                    <div style="float: right">
+                                        Print date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                                    </div>
+                                </div>
+                            
+                            <div>
+                                <div>
+                                <table border="1" width="100%" height="100%" cellpadding="0" cellspacing="0" style="border: none;" >
+                                <thead>
+                                    <th style="border:1px solid black; text-align:center;" cellpading="0" cellspacing="0">Product</th>
+                                    <th style="border:1px solid black; text-align:center;" cellpading="0" cellspacing="0">Discription</th>
+                                    <th style="border:1px solid black; text-align:center;" cellpading="0" cellspacing="0">Quantity</th>
+                                    <th style="border:1px solid black; text-align:center;" cellpading="0" cellspacing="0">Price subtotal</th>
+
+                                    <tr t-foreach="property.order_line" t-as="a" style="font-weight: bold; color: red;">
+
+                                        <td width="25%" style="text-align: left; border: 1px solid black;">
+                                            <span t-field="a.product_id"/>
+                                        </td>
+                                        <td width="25%" style="text-align: left; border: 1px solid black;">
+                                            <span t-field="a.name"/>
+                                        </td>
+                                        <td width="25%" style="text-align: left; border: 1px solid black;">
+                                            <span t-field="a.product_qty"/>
+                                        </td>
+                                        <td width="25%" height="50px" style="text-align: left; border: 1px solid black;">
+                                            <span t-field="a.price_subtotal"/>
+                                        </td>
+                                    </tr>
+                                    <div>
+                                    <tr  style="border:1px solid black; text-align:center;" cellpading="0" cellspacing="0">
+                                        <td colspan="2" style="border:none"></td>
+                                        <td>
+                                            Total: <span t-esc="float(property.amount_total)"/>
+                                        </td><br/>
+                                        <td>
+                                            Total: <span t-esc="float(property.amount_total)"/>
+                                        </td>
+                                    </tr>
+                                    </div>
+                                </thead>
+                                </table>
+                            </div>
+                                <!-- <h6 style='margin-left:650px;'>
+                                    Untaxed_price:<span t-esc="float(property.amount_untaxed)"/><br/>
+                                    Total:<span t-esc="float(property.amount_total)"/>
+                                </h6> -->
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+</odoo>
