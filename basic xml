@@ -1,0 +1,108 @@
+<odoo>
+    <data>
+        <record id="our owen id" model="ir.ui.view">
+            <field name="name">our.owen.name</field>
+            <field name="model">related model or inherited model</field>
+            <field name="arch" type="xml">
+                <form string="owen string name">
+                <header>
+                    <button name="our button function name" string="our button name" class="oe_highlight" type="object" />
+                </header>
+                    <sheet>
+                   
+                    <div name="button_box" position="inside">
+                        <button class="oe_stat_button" type="object" string="Purchase Order" name="Purchase_list" icon='fa-user'>
+                            <field  string="Count" name="purchase_count" widget="statinfo"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" string="Purchase Check" name="check_order" icon='fa-user'>
+
+                        </button>
+                    </div>
+                    <h1>
+                        <field name='application_no'/>
+                    </h1>
+
+        
+                        <group>
+                            <field name="class_name" group="hr.group_hr_user"/>
+                            <field name='vender'/>  
+                            <field name='purchase_check'  widget="many2many_tags"/>
+                            <field name='somany_product'  widget="many2many_tags"/>
+                        </group>
+                        #lines field code
+                        <notebook>
+                            <page string='School Line'>   #class Student(models.Model):
+                                                            #_name = "sale.school"
+                            <field name="school_line_ids">      # school_line_ids = fields.One2many('sale.school.line', 'sale_id', string="Sale School Line")
+                                                          #class StudentLine(models.Model):
+                                                            _name = 'sale.school.line'
+                                                                sale_id = fields.Many2one("sale.school",  string="School",)
+
+
+                                <tree editable="bottom"> 
+                                    <field name="mark"></field>
+                                    <field name='product_list' widget="many2many_tags"></field>
+                                </tree>
+                            </field>        
+                            </page>               
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        
+            
+        
+
+        <record id="our owen tree or list viwe id" model="ir.ui.view">
+            <field name="name">our owen tree or list viwe name</field>
+            <field name="model">our.owen.model</field>
+            <field name="arch" type="xml">
+                <tree string="Provision Entry List">
+                    <field name="class_name"/>
+                    <field name="student_class"/>
+                </tree>           
+            </field>
+        </record>
+
+
+
+        
+        <record id="our owen kanban  viwe id" model="ir.ui.view">
+            <field name="name">our owen kanban  viwe id.view.kanban</field>
+                <field name="model">sale.school</field>
+                <field name="arch" type="xml">
+                    <kanban>
+                        <field name="class_name"/>
+                        <field name="student_class"/>
+                            <templates>
+                            <t t-name="kanban-box">
+                            <div t-attf-class='oe_kanban_global_click'>
+                                <ul>
+                                    <li>Class : <field name="class_name"/></li>
+                                    <li>Name : <field name="student_class"/></li>                                    
+                                </ul>
+                            
+                            </div>
+                            </t>            
+                            </templates>
+                    </kanban>
+            </field>
+        </record>
+
+        <record id="ouer owen action id" model="ir.actions.act_window">
+            <field name="name">action Entry</field>
+            <field name="res_model">which model you want show</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+        
+        <menuitem
+            id="menu_view_manager_form"
+            name="School Entry"
+            action="action id here"
+            parent="sale.sale_order_menu"
+            sequence="31"
+        />
+    </data>
+</odoo>
