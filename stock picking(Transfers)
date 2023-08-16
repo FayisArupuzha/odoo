@@ -1,0 +1,86 @@
+from odoo import models, fields, api
+
+class ProductService(models.Model):
+    _name ="product.service"
+
+    from_field = fields.Many2one('stock.location',string="From",domain=[('check_bool','=',True)])
+    to_field = fields.Many2one('stock.location',string="TO",domain=[('usage','=','internal')])
+    product_service_line_ids = fields.One2many('product.service.line', 'form_id', string="form id School Line Connection")
+    partner_id = fields.Many2one("res.partner", string="Partner")
+
+    state = fields.Selection([
+        ('draft','Draft'),
+        ('move','Move'),
+        ('return','Return')
+    ],default='draft')
+
+    def product_move(self):
+        pick_type=self.env['stock.picking.type'].search([('sequence_code','=','INT')],limit=1)
+        lines_vals = []
+
+        for line in self.product_service_line_ids:
+            lines_vals.append((0, 0, {
+                'name': line.product.display_name,
+                'product_id': line.product.id,
+                'product_uom_qty': line.qty,
+                'product_uom': line.product.uom_id.id,
+                'location_id': self.from_field.id,
+                'location_dest_id': self.to_field.id,
+                'quantity_done' : line.qty,
+            }))
+        vals = {
+            'partner_id': self.partner_id.id,
+            'location_id': self.from_field.id,
+            'location_dest_id':  self.to_field.id,
+            'picking_type_id': pick_type.id,
+            'state': 'draft',
+            'move_ids_without_package': lines_vals,
+        }
+        picking = self.env['stock.picking'].create(vals)
+        picking.action_confirm()
+        picking.action_assign()
+        picking.button_validate()
+
+        self.write({'state': 'move'})
+
+    def product_return(self):
+        pick_type=self.env['stock.picking.type'].search([('sequence_code','=','INT')],limit=1)
+        lines_vals = []
+        for line in self.product_service_line_ids:
+            lines_vals.append((0, 0, {
+                'name': line.product.display_name,
+                'product_id': line.product.id,
+                'product_uom_qty': line.qty,
+                'product_uom': line.product.uom_id.id,
+                'location_id': self.to_field.id,
+                'location_dest_id': self.from_field.id,
+                'quantity_done' : line.qty,
+            }))
+        vals = {
+            'partner_id': self.partner_id.id,
+            'location_id': self.to_field.id,
+            'location_dest_id': self.from_field.id,
+            'picking_type_id': pick_type.id,
+            'state': 'draft',
+            'move_ids_without_package': lines_vals,
+        }
+        picking = self.env['stock.picking'].create(vals)
+        picking.action_confirm()
+        picking.action_assign()
+        picking.button_validate()
+
+        self.write({'state': 'return'})
+
+
+
+class ProductServiceLine(models.Model):
+    _name ="product.service.line"
+
+    product = fields.Many2one('product.product',string="Product")
+    qty = fields.Integer(string="Quantity")
+    form_id = fields.Many2one("product.service",string="Product service Line",
+    )
+
+class StockLocationss(models.Model):
+    _inherit='stock.location'
+    check_bool = fields.Boolean(string='Check bool')
