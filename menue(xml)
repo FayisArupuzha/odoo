@@ -1,0 +1,103 @@
+<odoo>
+    <data>
+        <record id="material_transfer" model="ir.ui.view">
+            <field name="name">Material Transfer</field>
+            <field name="model">material.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Material Form">
+                    <header>
+                        <button name="send_button" string="product move" class="oe_highlight" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="receve_button" string="Receve" class="oe_highlight" type="object" attrs="{'invisible': [('state', '!=', 'send')]}"/>
+                        <button name="product_return" string="product Return" class="oe_highlight" type="object" attrs="{'invisible': [('state', '!=', 'recive')]}"/>
+
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,send,recive,return"/>
+                    </header>
+                    <sheet>
+                        <div name="button_box" position="inside">
+                            <button class="oe_stat_button" type="object" name="smart_button"
+                                icon="fa-car">
+                                <field name="count_field"></field>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name='from_field'/>
+                                <field name='to_field'/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string='material transfer Line'>
+                                <field name="Transfer_Material_line_id">
+                                    <tree editable="bottom">
+                                        <field name="product"/>
+                                        <field name="qty"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="material_transfer_tree" model="ir.ui.view">
+            <field name="name">product service line</field>
+            <field name="model">material.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="Provision Entry List">
+                    <field name="from_field"/>
+                    <field name="to_field"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="material_transfer_action1" model="ir.actions.act_window">
+            <field name="name">action Entry</field>
+            <field name="res_model">material.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','not in',['send','recive','return'])]</field>
+        </record>
+        <record id="material_transfer_action2" model="ir.actions.act_window">
+            <field name="name">action Entry</field>
+            <field name="res_model">material.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','not in',['send','return'])]</field>
+        </record>
+         <record id="material_transfer_action3" model="ir.actions.act_window">
+            <field name="name">action Entry</field>
+            <field name="res_model">material.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','not in',['send','recive'])]</field>
+        </record>
+
+        <menuitem
+            id="material_transfer_menu"
+            name="Material Trasnfer"
+            action="material_transfer_action1"
+
+            sequence="31"
+        />
+         <menuitem
+            id="material_transfer_sub_menu1"
+            name="Transfer"
+            action="material_transfer_action1"
+            parent="material_transfer_menu"
+            sequence="31"
+        />
+         <menuitem
+            id="material_transfer_sub_menu2"
+            name="Receive"
+            action="material_transfer_action2"
+            parent="material_transfer_menu"
+            sequence="31"
+        />
+         <menuitem
+            id="material_transfer_sub_menu3"
+            name="Return"
+            action="material_transfer_action3"
+            parent="material_transfer_menu"
+            sequence="31"
+        />
+    </data>
+</odoo>
