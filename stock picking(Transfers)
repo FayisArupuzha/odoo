@@ -7,6 +7,7 @@ class ProductService(models.Model):
     to_field = fields.Many2one('stock.location',string="TO",domain=[('usage','=','internal')])
     product_service_line_ids = fields.One2many('product.service.line', 'form_id', string="form id School Line Connection")
     partner_id = fields.Many2one("res.partner", string="Partner")
+    stock_transfer_id = fields.One2many('stock.picking','product_service_id', string='trasnfer connection')
 
     state = fields.Selection([
         ('draft','Draft'),
@@ -35,6 +36,7 @@ class ProductService(models.Model):
             'picking_type_id': pick_type.id,
             'state': 'draft',
             'move_ids_without_package': lines_vals,
+            'product_service_id' : [(4,self.id)]
         }
         picking = self.env['stock.picking'].create(vals)
         picking.action_confirm()
@@ -63,6 +65,7 @@ class ProductService(models.Model):
             'picking_type_id': pick_type.id,
             'state': 'draft',
             'move_ids_without_package': lines_vals,
+            'product_service_id' : [(4,self.id)]
         }
         picking = self.env['stock.picking'].create(vals)
         picking.action_confirm()
@@ -70,6 +73,18 @@ class ProductService(models.Model):
         picking.button_validate()
 
         self.write({'state': 'return'})
+
+    def smart_button(self):
+        
+        self.ensure_one()
+        return {
+                'type': 'ir.actions.act_window',
+                'name': 'stock',
+                'view_mode': 'tree,form',
+                'res_model': 'stock.picking',
+                'domain': [('product_service_id', '=', self.id)],
+                # 'context': "{'create': False}"
+            }    
 
 
 
@@ -84,3 +99,8 @@ class ProductServiceLine(models.Model):
 class StockLocationss(models.Model):
     _inherit='stock.location'
     check_bool = fields.Boolean(string='Check bool')
+
+class StockMovesss(models.Model):
+    _inherit='stock.picking'
+    product_service_id = fields.Many2many("product.service",string="product service connection",)
+
