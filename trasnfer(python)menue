@@ -1,0 +1,113 @@
+from odoo import models, fields, api
+
+class TransferMaterial(models.Model):
+    _name ="material.transfer"
+
+    from_field = fields.Many2one('stock.location',string="From",domain=[('check_bool','=',True)])
+    to_field = fields.Many2one('stock.location',string="TO",domain=[('usage','=','internal')])
+    Transfer_Material_line_id = fields.One2many('material.transfer.line', 'material_transfer_ids', string="material transfer line Connection")
+    partner_id = fields.Many2one("res.partner", string="Partner")
+    state = fields.Selection([
+        ('draft','Draft'),
+        ('send','Send'),
+        ('recive','Recive'),
+        ('return','Return')
+    ],default='draft')
+    count_field = fields.Integer(string='Count',compute='compute_count')
+
+    stock_transfer_new_id = fields.One2many('stock.picking','product_service_new_ids', string='trasnfer connection')
+    
+    def send_button(self):
+        pick_type=self.env['stock.picking.type'].search([('sequence_code','=','INT')],limit=1)
+        lines_vals = []
+
+        for line in self.Transfer_Material_line_id:
+            lines_vals.append((0, 0, {
+                'name': line.product.display_name,
+                'product_id': line.product.id,
+                'product_uom_qty': line.qty,
+                'product_uom': line.product.uom_id.id,
+                'location_id': self.from_field.id,
+                'location_dest_id': self.to_field.id,
+                'quantity_done' : line.qty,
+            }))
+        vals = {
+            'partner_id': self.partner_id.id,
+            'location_id': self.from_field.id,
+            'location_dest_id':  self.to_field.id,
+            'picking_type_id': pick_type.id,
+            # 'state': 'draft',
+            'move_ids_without_package': lines_vals,
+            'product_service_new_ids' : [(4,self.id)]
+        }
+        picking = self.env['stock.picking'].create(vals)
+        picking.action_confirm()
+        picking.action_assign()
+        # picking.button_validate()
+
+        self.write({'state': 'send'})
+
+    def receve_button(self):  
+        picking = self.env['stock.picking'].search([('product_service_new_ids','=',self.id)])
+       
+        picking.button_validate()
+
+        self.write({'state': 'recive'})
+
+    
+    def product_return(self):
+        pick_type=self.env['stock.picking.type'].search([('sequence_code','=','INT')],limit=1)
+        lines_vals = []
+        for line in self.Transfer_Material_line_id:
+            lines_vals.append((0, 0, {
+                'name': line.product.display_name,
+                'product_id': line.product.id,
+                'product_uom_qty': line.qty,
+                'product_uom': line.product.uom_id.id,
+                'location_id': self.to_field.id,
+                'location_dest_id': self.from_field.id,
+                'quantity_done' : line.qty,
+            }))
+        vals = {
+            'partner_id': self.partner_id.id,
+            'location_id': self.to_field.id,
+            'location_dest_id': self.from_field.id,
+            'picking_type_id': pick_type.id,
+            # 'state': 'draft',
+            'move_ids_without_package': lines_vals,
+            'product_service_new_ids' : [(4,self.id)]
+        }
+        picking = self.env['stock.picking'].create(vals)
+        picking.action_confirm()
+        picking.action_assign()
+        picking.button_validate()
+
+        self.write({'state': 'return'})
+
+    def smart_button(self):
+        
+        self.ensure_one()
+        return {
+                'type': 'ir.actions.act_window',
+                'name': 'stock',
+                'view_mode': 'tree,form',
+                'res_model': 'stock.picking',
+                'domain': [('product_service_new_ids', '=', self.id)],
+                # 'context': "{'create': False}"
+            }    
+    
+    def compute_count(self):
+        count = self.env['stock.picking'].search_count([('product_service_new_ids', '=', self.id)])
+        self.count_field = count
+        
+class TransferMaterialLine(models.Model):
+    _name ="material.transfer.line"
+
+    product = fields.Many2one('product.product',string="Product")
+    qty = fields.Integer(string="Quantity")
+    material_transfer_ids = fields.Many2one("material.transfer",string="Product service Line",)
+
+class StockMovessss(models.Model):
+    _inherit='stock.picking'
+    product_service_new_ids = fields.Many2many("material.transfer",string="product material connection",)
+
