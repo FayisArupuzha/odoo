@@ -56,19 +56,25 @@
             <field name="name">action Entry</field>
             <field name="res_model">material.transfer</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('state','not in',['send','recive','return'])]</field>
+            <field name="domain">[('state','=','draft')]</field>
         </record>
         <record id="material_transfer_action2" model="ir.actions.act_window">
             <field name="name">action Entry</field>
             <field name="res_model">material.transfer</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('state','not in',['send','return'])]</field>
+            <field name="domain">[('state','=','recive')]</field>
         </record>
          <record id="material_transfer_action3" model="ir.actions.act_window">
             <field name="name">action Entry</field>
             <field name="res_model">material.transfer</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('state','not in',['send','recive'])]</field>
+            <field name="domain">[('state','=','return')]</field>
+        </record>
+        <record id="material_transfer_action4" model="ir.actions.act_window">
+            <field name="name">action Entry</field>
+            <field name="res_model">material.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=', 'send')]</field>
         </record>
 
         <menuitem
@@ -76,28 +82,36 @@
             name="Material Trasnfer"
             action="material_transfer_action1"
 
-            sequence="31"
+            sequence="1"
         />
          <menuitem
             id="material_transfer_sub_menu1"
             name="Transfer"
             action="material_transfer_action1"
             parent="material_transfer_menu"
-            sequence="31"
+            sequence="2"
+        />
+         <menuitem
+            id="material_transfer_sub_menu4"
+            name="send"
+            action="material_transfer_action4"
+            parent="material_transfer_menu"
+            sequence="3"
         />
          <menuitem
             id="material_transfer_sub_menu2"
             name="Receive"
             action="material_transfer_action2"
             parent="material_transfer_menu"
-            sequence="31"
+            sequence="4"
         />
          <menuitem
             id="material_transfer_sub_menu3"
             name="Return"
             action="material_transfer_action3"
             parent="material_transfer_menu"
-            sequence="31"
+            sequence="5"
         />
+       
     </data>
 </odoo>
