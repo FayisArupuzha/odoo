@@ -110,4 +110,3 @@ class TransferMaterialLine(models.Model):
 class StockMovessss(models.Model):
     _inherit='stock.picking'
     product_service_new_ids = fields.Many2many("material.transfer",string="product material connection",)
-
