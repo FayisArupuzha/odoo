@@ -1,0 +1,48 @@
+from odoo import models, fields
+
+class SaleOrderPurchase(models.Model):
+    _inherit = "sale.order"
+
+    purchase_ids = fields.One2many('purchase.order', 'sale_id', string="Purchase connection")
+
+    def action_confirm(self):
+        res = super(SaleOrderPurchase, self).action_confirm()
+
+        line_list = []
+        for line in self.order_line:
+            line_list.append((0, 0, {
+                'product_id': line.product_id.id,  
+                'product_qty': line.product_uom_qty,
+                'price_unit': line.price_unit,
+            }))
+        
+        purchase_order = self.env['purchase.order'].create({
+            'partner_id': self.partner_id.id,
+            'date_order': self.date_order,
+            'sale_id':self.id,
+            'order_line': line_list,
+        })
+        purchase_order.button_confirm()
+        for mine in self.picking_ids:
+            for line in mine.move_ids_without_package:
+                line.quantity_done = line.product_uom_qty
+            mine.button_validate()
+
+        for rec in purchase_order.picking_ids:
+            for line in rec.move_ids_without_package:
+                line.quantity_done = line.product_uom_qty
+            rec.button_validate()
+        
+        
+     
+
+
+        return res
+
+class PurchaseOrderPurchase(models.Model):
+    _inherit = "purchase.order"
+
+    sale_id = fields.Many2one(
+        "sale.order",
+        string="Sale Connection",
+    )
