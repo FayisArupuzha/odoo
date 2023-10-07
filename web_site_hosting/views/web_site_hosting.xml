@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+        <record id="web_hosting_form" model="ir.ui.view">
+            <field name="name">web.hosting</field>
+            <field name="model">product.hosting.web</field>
+            <field name="arch" type="xml">
+                <form string="owen string name">
+                   
+                        <sheet>
+                            <div name="button_box" position="inside">
+                                <button class="oe_stat_button" type="object" string="Purchase Order" name="website" icon='fa-globe'></button>
+                            </div>
+                            <group>
+                                <field name="software"/>
+                                <field name="price"/>
+                                <field name="description"/>
+                                <field name="publication"/>
+                            </group>
+                        </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_hosting_web_list" model="ir.ui.view">
+            <field name="name">product.hosting.web</field>
+            <field name="model">product.hosting.web</field>
+            <field name="arch" type="xml">
+                <tree string="Provision Entry List">
+                    <field name="software"/>
+                    <field name="price"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_hosting_web_action_id" model="ir.actions.act_window">
+            <field name="name">actio.web.hosting</field>
+            <field name="res_model">product.hosting.web</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        
+        <menuitem
+            id="product_hosting_web_menu_id"
+            name="Web Hosting"
+            action="product_hosting_web_action_id"
+            sequence="31"
+        />
+    </data>
+</odoo>

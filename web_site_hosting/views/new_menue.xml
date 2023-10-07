@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+       <record id="service_menu" model="website.menu">
+           <field name="name">Odoo Services</field>
+           <field name="url">/OdooServices</field>
+           <field name="parent_id" ref="website.main_menu"/>
+           <field name="sequence" type="int">80</field>
+       </record>
+       
+       <record id="service_menu_enqury" model="website.menu">
+        <field name="name">Odoo Services Form</field>
+        <field name="url">/OdooServices/form</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">81</field>
+    </record>
+   </data>
+</odoo>

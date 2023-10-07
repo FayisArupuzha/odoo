@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_hosting_web_user,web_site_hosting.product.hosting.web,model_product_hosting_web,base.group_user,1,1,1,1
